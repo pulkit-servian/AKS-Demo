@@ -25,8 +25,8 @@ resource "kubernetes_deployment" "demoapp" {
 
       spec {
         container {
-          image = "haroondogar/techchallengeapp:1.0"
-          name  = "servian-to-do"
+          image = "giltayar/simple-nginx:1.0.0"
+          name  = "nginx"
 
           resources {
             limits = {
