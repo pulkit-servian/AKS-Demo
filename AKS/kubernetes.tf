@@ -1,9 +1,9 @@
 # ##Below defines the kubernetes deployment manifest for the demo application with the replicas and sku defined
-resource "kubernetes_deployment" "demoapp" {
+resource "kubernetes_deployment" "servian-demo" {
   metadata {
-    name = "demoapp"
+    name = "servian-demo"
     labels = {
-      app = "demoapp"
+      app = "servian-demo"
     }
   }
 
@@ -12,20 +12,20 @@ resource "kubernetes_deployment" "demoapp" {
 
     selector {
       match_labels = {
-        app = "demoapp"
+        app = "servian-demo"
       }
     }
 
     template {
       metadata {
         labels = {
-          app = "demoapp"
+          app = "servian-demo"
         }
       }
 
       spec {
         container {
-          image = "giltayar/simple-nginx:1.0.0"
+          image = "nginxdemos/hello"
           name  = "nginx"
 
           resources {
@@ -52,7 +52,7 @@ resource "kubernetes_service" "svc" {
   }
   spec {
     selector = {
-      app = "demoapp"
+      app = "servian-demo"
     }
     port {
       port = 80
@@ -63,7 +63,7 @@ resource "kubernetes_service" "svc" {
 #Below is the code to configure a horizontal pod autoscaler to scale based on cpu utilization
 resource "kubernetes_horizontal_pod_autoscaler" "hpa" {
   metadata {
-    name = "demoapp"
+    name = "servian-demo"
   }
 
   spec {
@@ -73,7 +73,7 @@ resource "kubernetes_horizontal_pod_autoscaler" "hpa" {
     scale_target_ref {
       api_version = "apps/v1"
       kind        = "Deployment"
-      name        = "demoapp"
+      name        = "servian-demo"
     }
     target_cpu_utilization_percentage = 10
   }
