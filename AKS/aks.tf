@@ -1,13 +1,13 @@
 resource "azurerm_virtual_network" "aks_vnet" {
   name                = "aks-vnet"
   address_space       = ["10.1.0.0/16"]
-  location            = azurerm_resource_group.halc_aks.location
-  resource_group_name = azurerm_resource_group.halc_aks.name
+  location            = var.location
+  resource_group_name = var.resource_group_name
 }
 
 resource "azurerm_subnet" "subnet" {
   name                 = "aks-subnet"
-  resource_group_name  = azurerm_resource_group.halc_aks.name
+  resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.aks_vnet.name
   address_prefixes     = ["10.1.240.0/23"]
 }
@@ -16,7 +16,7 @@ resource "azurerm_subnet" "subnet" {
 resource "azurerm_kubernetes_cluster" "aks_cluster" {
   name                = "aks-cluster"
   location            = var.location
-  resource_group_name = azurerm_resource_group.halc_aks.name
+  resource_group_name = var.resource_group_name
   dns_prefix          = var.dns_prefix
 
   network_profile {
