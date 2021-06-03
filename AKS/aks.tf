@@ -5,7 +5,7 @@ resource "azurerm_virtual_network" "aks_vnet" {
   location            = var.location
   resource_group_name = var.resource_group_name
 }
-#Custom subnet within the AKS vnet
+#Custom subnet for the AKS vnet
 resource "azurerm_subnet" "subnet" {
   name                 = "aks-subnet"
   resource_group_name  = var.resource_group_name
